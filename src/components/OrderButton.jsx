@@ -1,14 +1,10 @@
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const OrderButton = () => {
-  const handleClick = () => {
-    alert('Formulário de pedidos será implementado em breve!');
-  };
-
+  const navigate = useNavigate();
   return (
-    <section>
-      <button onClick={handleClick}>Fazer Pedido</button>
-    </section>
+    <button onClick={() => navigate("/order")}>Faça seu pedido</button>
   );
 };
 

@@ -1,57 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const OrderForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [sweet, setSweet] = useState('');
-  const [quantity, setQuantity] = useState(1);
-  const [notes, setNotes] = useState('');
+const sweets = [
+  { id: 1, name: "Brigadeiro" },
+  { id: 2, name: "Bolo de Cenoura" },
+  { id: 3, name: "Brownie" }
+];
 
-  const handleSubmit = (e) => {
+const OrderForm = () => {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    sweetId: sweets[0].id,
+    quantity: 1,
+    observation: ""
+  });
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ name, phone, sweet, quantity, notes });
-    setName('');
-    setPhone('');
-    setSweet('');
-    setQuantity(1);
-    setNotes('');
+    alert(`Pedido feito:\nNome: ${form.name}\nTelefone: ${form.phone}\nDoce: ${sweets.find(s => s.id === +form.sweetId).name}\nQuantidade: ${form.quantity}\nObservação: ${form.observation}`);
+    setForm({
+      name: "",
+      phone: "",
+      sweetId: sweets[0].id,
+      quantity: 1,
+      observation: ""
+    });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        placeholder="Nome"
-        value={name}
-        onChange={e => setName(e.target.value)}
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        placeholder="Seu nome"
         required
       />
       <input
-        type="tel"
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
         placeholder="Telefone"
-        value={phone}
-        onChange={e => setPhone(e.target.value)}
         required
       />
+      <select name="sweetId" value={form.sweetId} onChange={handleChange}>
+        {sweets.map(sweet => (
+          <option key={sweet.id} value={sweet.id}>
+            {sweet.name}
+          </option>
+        ))}
+      </select>
       <input
-        type="text"
-        placeholder="Escolha o doce"
-        value={sweet}
-        onChange={e => setSweet(e.target.value)}
-        required
-      />
-      <input
+        name="quantity"
         type="number"
-        placeholder="Quantidade"
-        value={quantity}
         min="1"
-        onChange={e => setQuantity(Number(e.target.value))}
+        value={form.quantity}
+        onChange={handleChange}
         required
       />
       <textarea
-        placeholder="Observações (opcional)"
-        value={notes}
-        onChange={e => setNotes(e.target.value)}
+        name="observation"
+        value={form.observation}
+        onChange={handleChange}
+        placeholder="Observação (opcional)"
       />
       <button type="submit">Enviar Pedido</button>
     </form>
