@@ -1,35 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
-import Order from "./pages/Order.jsx";
-import Admin from "./pages/Admin.jsx";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Order from './pages/Order';
+import Admin from './pages/Admin';
+import './App.css';
 
-const App = () => {
+function App() {
   return (
     <Router>
-      <header>
-        <h1>Delícias da Rua</h1>
+      <header className="header">
+        <Link to="/" className="logo">Delícias da Rua</Link>
         <nav>
-          <NavLink to="/" end className={({ isActive }) => isActive ? "active" : ""}>Home</NavLink>
-          <NavLink to="/about" className={({ isActive }) => isActive ? "active" : ""}>Nossa História</NavLink>
-          <NavLink to="/order" className={({ isActive }) => isActive ? "active" : ""}>Faça seu Pedido</NavLink>
-          <NavLink to="/admin" className={({ isActive }) => isActive ? "active" : ""}>Admin</NavLink>
+          <Link to="/">Home</Link>
+          <Link to="/sobre">Sobre</Link>
+          <Link to="/pedido" className="nav-button">Fazer Pedido</Link>
+          <Link to="/admin">Admin</Link>
         </nav>
       </header>
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/sobre" element={<About />} />
+          <Route path="/pedido" element={<Order />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
-      <footer>
-        <p>© 2025 Delícias da Rua - Todos os direitos reservados</p>
-      </footer>
     </Router>
   );
-};
+}
 
 export default App;

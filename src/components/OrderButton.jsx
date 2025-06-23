@@ -1,11 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const OrderButton = () => {
-  const navigate = useNavigate();
+export default function OrderButton({ sweet, addToOrder }) {
+  const navigate = useNavigate()
+
+  function handleClick() {
+    addToOrder(sweet)
+    navigate('/order')
+  }
+
   return (
-    <button onClick={() => navigate("/order")}>Faça seu pedido</button>
-  );
-};
-
-export default OrderButton;
+    <button className="order-btn" onClick={handleClick}>
+      Pedir
+    </button>
+  )
+}

@@ -1,121 +1,23 @@
-body {
+/* Reset simples */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #fff8f0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FFF7F0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  line-height: 1.6;
 }
 
-header {
-  background-color: #ff6b6b;
-  padding: 1rem;
-  text-align: center;
-}
-
-nav a {
-  margin: 0 1rem;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-main {
-  padding: 2rem;
-}
-
-footer {
-  background-color: #ff6b6b;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-
-.home {
-  text-align: center;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.gallery-item {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-.btn-primary {
-  background-color: #ff6b6b;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
+button {
   cursor: pointer;
-  margin-top: 1rem;
-  font-size: 1rem;
+  font-family: inherit;
 }
 
-.btn-primary:hover {
-  background-color: #e05656;
-}
-
-form {
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-label {
-  font-weight: bold;
-}
-
-input,
-select,
-textarea {
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 100%;
-}
-
-.success-message {
-  color: green;
-  text-align: center;
-  font-weight: bold;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 2rem;
-}
-
-th,
-td {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  text-align: left;
-}
-
-th {
-  background-color: #ffe0e0;
+/* Links */
+a {
+  text-decoration: none;
 }

@@ -1,77 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from 'react'
+import { OrdersContext } from '../context/OrdersContext'
 
-const sweets = [
-  { id: 1, name: "Brigadeiro" },
-  { id: 2, name: "Bolo de Cenoura" },
-  { id: 3, name: "Brownie" }
-];
+export default function OrderForm() {
+  const { order, clearOrder, submitOrder } = useContext(OrdersContext)
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [observations, setObservations] = useState('')
 
-const OrderForm = () => {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    sweetId: sweets[0].id,
-    quantity: 1,
-    observation: ""
-  });
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    alert(`Pedido feito:\nNome: ${form.name}\nTelefone: ${form.phone}\nDoce: ${sweets.find(s => s.id === +form.sweetId).name}\nQuantidade: ${form.quantity}\nObservação: ${form.observation}`);
-    setForm({
-      name: "",
-      phone: "",
-      sweetId: sweets[0].id,
-      quantity: 1,
-      observation: ""
-    });
-  };
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!name || !phone || order.length === 0) {
+      alert('Preencha seu nome, telefone e escolha pelo menos um doce.')
+      return
+    }
+    submitOrder({ name, phone, observations })
+    alert('Pedido enviado! Obrigado :)')
+    clearOrder()
+    setName('')
+    setPhone('')
+    setObservations('')
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Seu nome"
-        required
-      />
-      <input
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        placeholder="Telefone"
-        required
-      />
-      <select name="sweetId" value={form.sweetId} onChange={handleChange}>
-        {sweets.map(sweet => (
-          <option key={sweet.id} value={sweet.id}>
-            {sweet.name}
-          </option>
-        ))}
-      </select>
-      <input
-        name="quantity"
-        type="number"
-        min="1"
-        value={form.quantity}
-        onChange={handleChange}
-        required
-      />
-      <textarea
-        name="observation"
-        value={form.observation}
-        onChange={handleChange}
-        placeholder="Observação (opcional)"
-      />
-      <button type="submit">Enviar Pedido</button>
-    </form>
-  );
-};
+    <form onSubmit={handleSubmit} className="order-form">
+      <label>
+        Nome:
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+          placeholder="Seu nome"
+        />
+      </label>
 
-export default OrderForm;
+      <label>
+        Telefone:
+        <input
+          type="tel"
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
+          required
+          placeholder="(99) 99999-9999"
+        />
+      </label>
+
+      <label>
+        Observações:
+        <textarea
+          value={observations}
+          onChange={e => setObservations(e.target.value)}
+          placeholder="Alguma observação?"
+          rows={3}
+        />
+      </label>
+
+      <h3>Seu Pedido:</h3>
+      <ul>
+        {order.map(item => (
+          <li key={item.id}>
+            {item.name} - R$ {item.price.toFixed(2)}
+          </li>
+        ))}
+      </ul>
+
+      <button type="submit" className="submit-btn">
+        Enviar Pedido
+      </button>
+    </form>
+  )
+}

@@ -1,42 +1,185 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.header {
+  background-color: #FF6B35;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 3px 8px rgba(255, 107, 53, 0.6);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  color: white;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-decoration: none;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+nav a {
+  color: white;
+  font-weight: 600;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+nav a:hover {
+  color: #FFC9B3;
 }
 
-.card {
-  padding: 2em;
+.nav-button {
+  background-color: white;
+  color: #FF6B35;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.nav-button:hover {
+  background-color: #E55D2F;
+  color: white;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #FFF7F0;
+  min-height: 80vh;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.sweet-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgb(255 107 53 / 0.2);
+  padding: 1rem;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.sweet-card:hover {
+  transform: scale(1.03);
+}
+
+.sweet-img {
+  width: 180px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.gallery-item h3,
+.sweet-card h3 {
+  color: #FF6B35;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-item p,
+.sweet-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  color: #555;
+}
+
+.price {
+  font-weight: 700;
+  color: #E55D2F;
+  margin-bottom: 1rem;
+}
+
+.order-btn {
+  background-color: #FF6B35;
+  border: none;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.order-btn:hover {
+  background-color: #E55D2F;
+}
+
+.about-section {
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+  color: #333;
+}
+
+.about-section h1 {
+  color: #FF6B35;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.order-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(255 107 53 / 0.2);
+}
+
+.order-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #FF6B35;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  background-color: #FF6B35;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #E55D2F;
 }
