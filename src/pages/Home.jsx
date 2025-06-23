@@ -1,6 +1,9 @@
 import React from 'react';
+import Gallery from '../components/Gallery';
+import About from './About';
+import OrderButton from '../components/OrderButton';
 
-export default function Home() {
+const Home = () => {
   return (
     <div>
       <h1>Bem-vindo à Delícias da Rua</h1>
@@ -8,3 +11,4 @@ export default function Home() {
     </div>
   );
 }
+export default Home;
