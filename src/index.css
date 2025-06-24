@@ -1,23 +1,26 @@
-/* Reset simples */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  background-color: #FFF7F0;
+  margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff8f0;
   color: #333;
-  line-height: 1.6;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: #7b3f00;
 }
 
-/* Links */
 a {
+  color: #7b3f00;
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

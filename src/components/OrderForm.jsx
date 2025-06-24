@@ -1,72 +1,58 @@
 import React, { useState, useContext } from 'react'
 import { OrdersContext } from '../context/OrdersContext'
 
-export default function OrderForm() {
-  const { order, clearOrder, submitOrder } = useContext(OrdersContext)
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [observations, setObservations] = useState('')
+export default function OrderForm({ onClose }) {
+  const { addOrder } = useContext(OrdersContext)
+  const [formData, setFormData] = useState({
+    name: '',
+    address: '',
+    sweets: '',
+    quantity: 1
+  })
+
+  function handleChange(e) {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
-    if (!name || !phone || order.length === 0) {
-      alert('Preencha seu nome, telefone e escolha pelo menos um doce.')
-      return
-    }
-    submitOrder({ name, phone, observations })
-    alert('Pedido enviado! Obrigado :)')
-    clearOrder()
-    setName('')
-    setPhone('')
-    setObservations('')
+    addOrder(formData)
+    onClose()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="order-form">
-      <label>
-        Nome:
-        <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-          placeholder="Seu nome"
-        />
-      </label>
-
-      <label>
-        Telefone:
-        <input
-          type="tel"
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
-          required
-          placeholder="(99) 99999-9999"
-        />
-      </label>
-
-      <label>
-        Observações:
-        <textarea
-          value={observations}
-          onChange={e => setObservations(e.target.value)}
-          placeholder="Alguma observação?"
-          rows={3}
-        />
-      </label>
-
-      <h3>Seu Pedido:</h3>
-      <ul>
-        {order.map(item => (
-          <li key={item.id}>
-            {item.name} - R$ {item.price.toFixed(2)}
-          </li>
-        ))}
-      </ul>
-
-      <button type="submit" className="submit-btn">
-        Enviar Pedido
-      </button>
+    <form className="order-form" onSubmit={handleSubmit}>
+      <input
+        name="name"
+        placeholder="Seu nome"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="address"
+        placeholder="Endereço"
+        value={formData.address}
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="sweets"
+        placeholder="Doce desejado"
+        value={formData.sweets}
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="quantity"
+        type="number"
+        min="1"
+        value={formData.quantity}
+        onChange={handleChange}
+        required
+      />
+      <button type="submit">Enviar Pedido</button>
     </form>
   )
 }

@@ -3,9 +3,9 @@ import OrderForm from '../components/OrderForm'
 
 export default function Order() {
   return (
-    <section>
-      <h1>Faça seu Pedido</h1>
+    <div className="order-container">
+      <h1>Faça seu pedido</h1>
       <OrderForm />
-    </section>
+    </div>
   )
 }

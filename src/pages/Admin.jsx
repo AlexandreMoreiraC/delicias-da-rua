@@ -3,8 +3,6 @@ import { db } from '../firebaseConfig'
 import '../admin.css'
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
 
-
-
 export default function Admin() {
   const [sweets, setSweets] = useState([])
   const [loading, setLoading] = useState(true)

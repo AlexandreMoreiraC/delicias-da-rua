@@ -1,32 +1,24 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
-import Order from './pages/Order';
-import Admin from './pages/Admin';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { OrdersProvider } from './context/OrdersContext'
+import Home from './pages/Home'
+import About from './pages/About'
+import Order from './pages/Order'
+import Admin from './pages/Admin'
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <header className="header">
-        <Link to="/" className="logo">Delícias da Rua</Link>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/sobre">Sobre</Link>
-          <Link to="/pedido" className="nav-button">Fazer Pedido</Link>
-          <Link to="/admin">Admin</Link>
-        </nav>
-      </header>
-      <main>
+    <OrdersProvider>
+      <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sobre" element={<About />} />
-          <Route path="/pedido" element={<Order />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/order" element={<Order />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </main>
-    </Router>
-  );
+      </Router>
+    </OrdersProvider>
+  )
 }
-
-export default App;
