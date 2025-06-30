@@ -14,7 +14,7 @@ export default function OrderButton({
   const [showLoginMsg, setShowLoginMsg] = useState(false);
 
   function handleClick() {
-    if (!user) {
+    if (!user || Object.keys(user).length === 0) {
       setShowLoginMsg(true);
       setTimeout(() => setShowLoginMsg(false), 3000);
       return;
