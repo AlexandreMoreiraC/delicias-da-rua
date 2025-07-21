@@ -84,6 +84,8 @@ export default function Cadastro() {
     }
   }
 
+  const idadeInvalida = nascimento && (calcularIdade(nascimento) < 18 || calcularIdade(nascimento) > 120);
+
   return (
     <main className="fundo-cadastro">
       <div className="cadastro-wrapper">
@@ -136,6 +138,9 @@ export default function Cadastro() {
                 onInput={e => e.target.setCustomValidity("")}
               />
             </label>
+            {idadeInvalida && (
+              <p style={{ color: "red" }}>Você precisa ter entre 18 e 120 anos para se cadastrar.</p>
+            )}
             <label>
               Email
               <input
@@ -160,7 +165,7 @@ export default function Cadastro() {
               />
             </label>
             {erro && <p style={{ color: "red" }}>{erro}</p>}
-            <button type="submit">Registar-se</button>
+            <button type="submit" disabled={idadeInvalida}>Registar-se</button>
           </form>
         </div>
         <div

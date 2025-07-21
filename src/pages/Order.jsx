@@ -1,9 +1,12 @@
 import Swal from "sweetalert2";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth, db } from "../firebaseConfig.js";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export default function Order({ carrinho, setCarrinho }) {
   const navigate = useNavigate();
+  const [comentario, setComentario] = useState("");
 
   function handleRemove(id) {
     const novoCarrinho = carrinho.filter((item) => item.id !== id);
@@ -20,18 +23,58 @@ export default function Order({ carrinho, setCarrinho }) {
     }
   }
 
-  function handleCheckout() {
-    Swal.fire({
-      title: "Compra Finalizada!",
-      text: "Obrigado pela preferência! Seus doces logo estarão a caminho 🍬",
-      icon: "success",
-      confirmButtonText: "Voltar para a galeria",
-      confirmButtonColor: "#d76d77",
-      background: "#fffafc",
-    }).then(() => {
-      setCarrinho([]);
-      navigate("/galeria");
-    });
+  async function handleCheckout() {
+    if (!auth.currentUser) {
+      Swal.fire({
+        icon: "error",
+        title: "Você precisa estar logado para fazer um pedido.",
+      });
+      return;
+    }
+
+    if (carrinho.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Carrinho vazio",
+        text: "Adicione algum produto antes de finalizar a compra.",
+      });
+      return;
+    }
+
+    try {
+      const pedido = {
+        usuarioId: auth.currentUser.uid,
+        produtos: carrinho.map(({ id, quantidade }) => ({
+          doceId: id,
+          quantidade,
+        })),
+        comentario: comentario.trim(),
+        data: serverTimestamp(),
+      };
+
+      const cartsCollection = collection(db, "carts");
+      await addDoc(cartsCollection, pedido);
+
+      Swal.fire({
+        title: "Compra Finalizada!",
+        text: "Obrigado pela preferência! Seus doces logo estarão a caminho 🍬",
+        icon: "success",
+        confirmButtonText: "Voltar para a galeria",
+        confirmButtonColor: "#d76d77",
+        background: "#fffafc",
+      }).then(() => {
+        setCarrinho([]);
+        setComentario("");
+        navigate("/galeria");
+      });
+    } catch (error) {
+      console.error("Erro ao salvar pedido:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Não foi possível finalizar o pedido. Tente novamente mais tarde.",
+      });
+    }
   }
 
   const total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
@@ -80,11 +123,18 @@ export default function Order({ carrinho, setCarrinho }) {
             ))}
           </div>
 
-          <div
-            className="total-container"
-          >
-            Total: €{total.toFixed(2)}
+          <div className="comentario-container">
+            <label htmlFor="comentario">Comentário (opcional):</label>
+            <textarea
+              id="comentario"
+              value={comentario}
+              onChange={(e) => setComentario(e.target.value)}
+              placeholder="Deseja deixar alguma observação sobre seu pedido?"
+              className="comentario-textarea"
+            />
           </div>
+
+          <div className="total-container">Total: €{total.toFixed(2)}</div>
 
           <button onClick={handleCheckout} className="checkout-button" style={{ marginTop: "0.5rem" }}>
             Finalizar Compra

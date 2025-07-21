@@ -13,6 +13,8 @@ import Swal from "sweetalert2";
 
 export default function Admin() {
   const [doces, setDoces] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [carts, setCarts] = useState([]);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [preco, setPreco] = useState("");
@@ -20,11 +22,15 @@ export default function Admin() {
   const [editId, setEditId] = useState(null);
   const [destaque, setDestaque] = useState(false);
   const [filtroBusca, setFiltroBusca] = useState("");
+  const [filtroEmailUsuario, setFiltroEmailUsuario] = useState("");
+  const [filtroEmailPedido, setFiltroEmailPedido] = useState("");
   const [role, setRole] = useState(null);
   const [loadingRole, setLoadingRole] = useState(true);
   const formRef = useRef(null);
 
   const docesCollection = collection(db, "doces");
+  const usuariosCollection = collection(db, "usuarios");
+  const cartsCollection = collection(db, "carts");
 
   useEffect(() => {
     async function fetchUserRole() {
@@ -42,7 +48,7 @@ export default function Admin() {
 
   useEffect(() => {
     if (role === "admin") {
-      const unsubscribe = onSnapshot(docesCollection, (snapshot) => {
+      const unsubscribeDoces = onSnapshot(docesCollection, (snapshot) => {
         const lista = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -50,7 +56,28 @@ export default function Admin() {
         const listaOrdenada = lista.sort((a, b) => a.nome.localeCompare(b.nome));
         setDoces(listaOrdenada);
       });
-      return () => unsubscribe();
+
+      const unsubscribeUsuarios = onSnapshot(usuariosCollection, (snapshot) => {
+        const listaUsuarios = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsuarios(listaUsuarios);
+      });
+
+      const unsubscribeCarts = onSnapshot(cartsCollection, (snapshot) => {
+        const listaCarts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCarts(listaCarts);
+      });
+
+      return () => {
+        unsubscribeDoces();
+        unsubscribeUsuarios();
+        unsubscribeCarts();
+      };
     }
   }, [role]);
 
@@ -109,8 +136,46 @@ export default function Admin() {
     setDestaque(false);
   }
 
-  async function handleDelete(id) {
-    await deleteDoc(doc(db, "doces", id));
+  async function handleDeleteDoce(id) {
+    const resultado = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Essa ação vai excluir o produto permanentemente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (resultado.isConfirmed) {
+      await deleteDoc(doc(db, "doces", id));
+      Swal.fire({
+        icon: "success",
+        title: "Produto excluído!",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+  }
+
+  async function handleDeletePedido(id) {
+    const resultado = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Essa ação vai excluir o pedido permanentemente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (resultado.isConfirmed) {
+      await deleteDoc(doc(db, "carts", id));
+      Swal.fire({
+        icon: "success",
+        title: "Pedido excluído!",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
   }
 
   function handleEdit(doce) {
@@ -132,9 +197,34 @@ export default function Admin() {
     setDestaque(false);
   }
 
+  async function handleDeleteUsuario(id, email) {
+    const confirm = await Swal.fire({
+      title: "Confirmar exclusão",
+      text: `Excluir usuário ${email}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Excluir",
+      cancelButtonText: "Cancelar",
+    });
+    if (confirm.isConfirmed) {
+      await deleteDoc(doc(db, "usuarios", id));
+      Swal.fire("Excluído!", "Usuário removido.", "success");
+    }
+  }
+
   const docesFiltrados = doces.filter((doce) =>
     doce.nome.toLowerCase().includes(filtroBusca.toLowerCase())
   );
+
+  const usuariosFiltrados = usuarios.filter((user) =>
+    user.email?.toLowerCase().includes(filtroEmailUsuario.toLowerCase())
+  );
+
+  const cartsFiltrados = carts.filter((pedido) => {
+    const usuario = usuarios.find((u) => u.id === pedido.usuarioId);
+    const emailUsuario = usuario?.email?.toLowerCase() || "";
+    return emailUsuario.includes(filtroEmailPedido.toLowerCase());
+  });
 
   if (loadingRole) {
     return <p>Carregando...</p>;
@@ -219,10 +309,102 @@ export default function Admin() {
               >
                 Editar
               </button>
-              <button onClick={() => handleDelete(id)}>Excluir</button>
+              <button onClick={() => handleDeleteDoce(id)}>Excluir</button>
             </div>
           </div>
         ))}
+      </div>
+
+      <h2>Gerenciar Usuários</h2>
+      <input
+        type="text"
+        placeholder="E-mail"
+        value={filtroEmailUsuario}
+        onChange={(e) => setFiltroEmailUsuario(e.target.value)}
+      />
+      <table className="usuarios-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usuariosFiltrados.map((user) => (
+            <tr key={user.id}>
+              <td>{user.nome || "-"}</td>
+              <td>{user.email || "-"}</td>
+              <td>
+                <select
+                  value={user.role || "user"}
+                  onChange={async (e) => {
+                    const newRole = e.target.value;
+                    const userDocRef = doc(db, "usuarios", user.id);
+                    await updateDoc(userDocRef, { role: newRole });
+                    setUsuarios((prev) =>
+                      prev.map((u) =>
+                        u.id === user.id ? { ...u, role: newRole } : u
+                      )
+                    );
+                  }}
+                >
+                  <option value="user">Usuário</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </td>
+              <td>
+                <button onClick={() => handleDeleteUsuario(user.id, user.email)}>
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>Pedidos</h2>
+      <h3>Buscar Pedidos por Email</h3>
+      <input
+        type="text"
+        placeholder="E-mail "
+        value={filtroEmailPedido}
+        onChange={(e) => setFiltroEmailPedido(e.target.value)}
+      />
+      <div className="pedidos-container">
+        {cartsFiltrados.map((pedido) => {
+          const usuario = usuarios.find((u) => u.id === pedido.usuarioId);
+          return (
+            <div key={pedido.id} className="pedido-card">
+              <h3>Pedido #{pedido.id}</h3>
+              <p>
+                <strong>Data:</strong>{" "}
+                {pedido.data?.toDate
+                  ? pedido.data.toDate().toLocaleString()
+                  : pedido.data || "Sem data"}
+              </p>
+              <p>
+                <strong>Cliente:</strong> {usuario ? usuario.nome || usuario.email : "Desconhecido"}
+              </p>
+              <p>
+                <strong>Itens:</strong>
+              </p>
+              <ul>
+                {pedido.itens?.map((item, idx) => (
+                  <li key={idx}>
+                    {item.nome} - Quantidade: {item.quantidade} - Preço: €{" "}
+                    {(item.preco * item.quantidade).toFixed(2)}
+                  </li>
+                ))}
+              </ul>
+              <p>
+                <strong>Total:</strong> € {pedido.total?.toFixed(2) || "0.00"}
+              </p>
+              <button onClick={() => handleDeletePedido(pedido.id)}>Excluir Pedido</button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

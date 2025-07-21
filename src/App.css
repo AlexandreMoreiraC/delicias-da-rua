@@ -409,6 +409,7 @@ h1, h2, h3 {
   box-shadow: 0 10px 25px rgba(255, 138, 0, 0.6);
 }
 
+
 nav {
   position: relative;
   display: flex;
@@ -422,6 +423,43 @@ nav {
   max-height: 0px;
 }
 
+@media (max-width: 768px) {
+  .nav-center {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #a0522d, #d2691e);
+  box-shadow: 0 4px 10px rgba(208, 99, 36, 0.4);
+  transition: background 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.nav-right:hover {
+  background: linear-gradient(135deg, #b5651d, #f5a623);
+  box-shadow: 0 6px 20px rgba(181, 101, 29, 0.6);
+  transform: translateY(-2px);
+}
+
+.nav-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  color: white;
+}
+}
+
+
 .nav-logo {
   height: 75px;
   width: auto;
@@ -434,6 +472,7 @@ nav {
   font-size: 1.1rem;
   white-space: nowrap;
 }
+
 
 .nav-center {
   position: absolute;
@@ -785,12 +824,98 @@ nav a:hover {
   box-shadow: 0 0 8px rgba(244, 159, 28, 0.4);
 }
 
+
 .login-container p {
   font-size: 0.9rem;
   color: #666;
   text-align: center;
   margin-top: 10px;
 }
+.usuarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.usuarios-table th,
+.usuarios-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-family: Arial, sans-serif;
+}
+
+.usuarios-table th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+}
+
+.usuarios-table select {
+  padding: 5px 8px;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.usuarios-table button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d9534f;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.pedidos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pedido-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 300px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.pedido-card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #333;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.pedido-card p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.pedido-card ul {
+  padding-left: 20px;
+  margin: 6px 0 0 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+
+.usuarios-table button:hover {
+  background-color: #c9302c;
+}
+
 
 .login-container p a {
   color: #f49f1c;
@@ -827,6 +952,56 @@ button[type="submit"]:hover {
   text-align: center;
   margin-top: -8px;
 }
+.botao-favorito {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: gray;
+  padding: 0;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.botao-favorito.ativo {
+  color: red;
+}
+.comentario-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff8fc;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(215, 109, 119, 0.15);
+  border: 1px solid #ffd1df;
+}
+
+.comentario-container label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d76d77;
+  margin-bottom: 0.5rem;
+}
+
+.comentario-textarea {
+  width: 100%;
+  min-height: 100px;
+  font-size: 1rem;
+  padding: 1rem;
+  border: 2px solid #ffd1df;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  color: #333;
+  resize: vertical;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comentario-textarea:focus {
+  border-color: #d76d77;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(215, 109, 119, 0.2);
+}
 
 
 .logout-button {
@@ -861,10 +1036,11 @@ button[type="submit"]:hover {
   border-radius: 8px;
   padding: 12px;
   width: 220px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 4px 7px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #fbecec;
 }
 
 .doce-img {
