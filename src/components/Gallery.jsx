@@ -25,9 +25,6 @@ export default function Gallery({ doces = [], carrinho = [], setCarrinho, user }
     }
   }, [favoritos, user]);
 
-  const destaqueDoces = doces.filter((doce) => doce.destaque);
-  const docesAtuais = [...destaqueDoces, ...destaqueDoces];
-
   let filteredDoces = doces.filter((doce) =>
     doce.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -90,20 +87,6 @@ export default function Gallery({ doces = [], carrinho = [], setCarrinho, user }
           <div className="badge-quantidade">{totalItensCarrinho()}</div>
         )}
       </Link>
-
-      <div className="carrossel-destaque">
-        <h2 className="titulo-destaque">Novos sabores para provar e repetir!</h2>
-        <div className="destaques-rolantes">
-          <div className="destaques-animacao">
-            {docesAtuais.map((doce, index) => (
-              <div key={`${doce.id}-${index}`} className="destaque-item">
-                <img src={doce.imagemUrl} alt={doce.nome} />
-                <h3>{doce.nome}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div style={{ margin: "20px", textAlign: "center" }}>
         <input
@@ -230,19 +213,18 @@ export default function Gallery({ doces = [], carrinho = [], setCarrinho, user }
                         fontSize: "16px",
                       }}
                     />
-                   <div style={{ transform: "scale(0.85)", display: "inline-block" }}>
-                     <OrderButton
-                      user={user}
-                      doceId={doce.id}
-                       doceNome={doce.nome}
+                    <div style={{ transform: "scale(0.85)", display: "inline-block" }}>
+                      <OrderButton
+                        user={user}
+                        doceId={doce.id}
+                        doceNome={doce.nome}
                         docePreco={doce.preco}
-                         doceImagemUrl={doce.imagemUrl}
-                         quantidade={quantidades[doce.id] || 1}
-                         carrinho={carrinho}
-                         setCarrinho={setCarrinho}
-                       />
-                      </div>
-                    
+                        doceImagemUrl={doce.imagemUrl}
+                        quantidade={quantidades[doce.id] || 1}
+                        carrinho={carrinho}
+                        setCarrinho={setCarrinho}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
