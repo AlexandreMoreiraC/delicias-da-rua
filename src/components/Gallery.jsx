@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import OrderButton from "./OrderButton";
-import "../app.css";
+import "../App.css";
 
 export default function Gallery({ doces = [], carrinho = [], setCarrinho, user }) {
   const [searchTerm, setSearchTerm] = useState("");
