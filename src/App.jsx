@@ -18,7 +18,7 @@ import LogoutButton from "./components/LogoutButton";
 import { auth } from "./firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 
-import "./app.css";
+import "./App.css";
 import Gallery from "./components/Gallery";
 import { FaUserCircle, FaShoppingCart, FaHome } from "react-icons/fa";
 import { GiCakeSlice } from "react-icons/gi";
