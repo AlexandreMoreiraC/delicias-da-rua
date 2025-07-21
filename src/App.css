@@ -133,16 +133,33 @@ h1, h2, h3 {
 .destaques-animacao {
   display: flex;
   gap: 16px;
-  /* animação removida para responsividade */
+  
 }
 
-/* Em telas maiores, mantemos a animação */
+
+@media (max-width: 1023px) {
+  .destaques-rolantes {
+    overflow-x: auto;
+  }
+  .destaques-animacao {
+    animation: none;
+    display: flex;
+    gap: 12px;
+  }
+  .destaque-item {
+    min-width: 120px; 
+    flex-shrink: 0;
+  }
+}
 @media (min-width: 1024px) {
   .destaques-rolantes {
     overflow: hidden;
   }
   .destaques-animacao {
     animation: scroll-left 30s linear infinite;
+  }
+  .destaque-item {
+    min-width: 180px;
   }
 }
 
@@ -315,7 +332,7 @@ h1, h2, h3 {
   }
 
   .destaques-animacao {
-    gap: 16px;
+    gap: 12px;
   }
 
   .destaque-item {
