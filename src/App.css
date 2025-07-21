@@ -101,45 +101,61 @@ h1, h2, h3 {
 .carrossel-destaque {
   width: 100%;
   max-width: 1400px;
-  margin: 30px auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 15px;
   background: linear-gradient(90deg, #e29654, #e9af78);
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
 }
 
 .titulo-destaque {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #fff8f0;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .destaques-rolantes {
-  overflow: hidden;
+  overflow-x: auto;
   width: 100%;
-  position: relative;
+  display: flex;
+  gap: 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
 }
 
 .destaques-animacao {
   display: flex;
-  gap: 24px;
-  animation: scroll-left 30s linear infinite;
+  gap: 16px;
+  /* animação removida para responsividade */
+}
+
+/* Em telas maiores, mantemos a animação */
+@media (min-width: 1024px) {
+  .destaques-rolantes {
+    overflow: hidden;
+  }
+  .destaques-animacao {
+    animation: scroll-left 30s linear infinite;
+  }
 }
 
 .destaque-item {
-  min-width: 180px;
+  min-width: 140px;
   flex-shrink: 0;
   background-color: #fffaf5;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
   text-align: center;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .destaque-item:hover {
@@ -148,21 +164,50 @@ h1, h2, h3 {
 
 .destaque-item img {
   width: 100%;
-  height: 140px;
+  height: 110px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
 .destaque-item h3 {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: #c95f29;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 140px;
   margin: 0 auto;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .carrossel-destaque {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .titulo-destaque {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .destaque-item {
+    min-width: 110px;
+    padding: 8px;
+  }
+
+  .destaque-item img {
+    height: 90px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+
+  .destaque-item h3 {
+    font-size: 12px;
+    max-width: 110px;
+  }
 }
 
 @keyframes scroll-left {
@@ -173,6 +218,7 @@ h1, h2, h3 {
     transform: translateX(-50%);
   }
 }
+
 
 .galeria-fundo {
   background-image: url(https://res.cloudinary.com/dliyfpqqu/image/upload/v1750886023/vecteezy_melted-chocolate-dripping_21779851_wis5pt.png);
@@ -609,7 +655,6 @@ nav {
   }
 }
 
-/* Fundo e layout do cadastro */
 .fundo-cadastro {
   height: 100vh;
   display: flex;
